@@ -14,17 +14,67 @@ function App() {
   ];
 
   const [selectedPiece, setSelectedPiece] = React.useState(null);
+  // console.log(selectedPiece);
   const [board, setBoard] = React.useState(initialBoard);
+  // console.log(board);
   const [validMoves, setValidMoves] = React.useState([]);
-
+  // console.log(validMoves);
+  const  checkStringType=(str)=>{
+    if (str===null)return null
+    return str === str.toLowerCase()
+  }
+  
+  
+  
   const getValidMove = (piece, row, col) => {
-    let moves = [];
-    const pieceLower = piece.toLowerCase();
+    
+    if (piece==="P"){
+      console.log(board[row+1][col-1])
+      console.log(board[row+1][col+1])
+    }else{
+      console.log(board[row-1][col-1])
+      console.log(board[row-1][col+1])
+    }
 
+    //  const isLowerCase = checkStringType(piece)
+    //  console.log(isLowerCase)
+    console.log(piece, row, col);
+    let moves = [];
+    const opponent1 = checkStringType(board[row+1][col-1])
+    const opponent2 = checkStringType(board[row+1][col+1])
+    const opponent3 = checkStringType(board[row-1][col-1])
+    const opponent4 = checkStringType(board[row-1][col+1])
+    
+    const pieceLower = piece.toLowerCase();
+    
     if (pieceLower === "p") {
-      const direction = piece === "P" ? -1 : 1;
-      if (row + direction >= 0 && row + direction < 8 && board[row + direction][col] === null) {
+      
+     
+      const direction = piece === "P" ? 1 : -1;
+      if (
+        row + direction >= 0 &&
+        row + direction < 8 &&
+        board[row + direction][col] === null
+      ) {
+
         moves.push([row + direction, col]);
+        
+        if (piece === "P") {
+          if (col - 1 >= 0 && board[row + 1][col - 1] !== null && opponent1) moves.push([row + 1, col - 1]);
+          if (col + 1 < 8 && board[row + 1][col + 1] !== null && opponent2) moves.push([row + 1, col + 1]);
+        }
+        if (piece === "p") {
+          if (col - 1 >= 0 && board[row - 1][col - 1] !== null && !opponent3) moves.push([row - 1, col - 1]);
+          if (col + 1 < 8 && board[row - 1][col + 1] !== null && !opponent4) moves.push([row - 1, col + 1]);
+        }
+        
+
+       
+        // if (board[row+direction][col+direction] !==null  ) moves.push([row+direction, col+direction]);
+          // if(board[row+direction][col-(direction)]!==null ) moves.push([row+direction, col-(direction)]);
+          
+
+        
       }
     }
 
@@ -60,6 +110,148 @@ function App() {
       }
     }
 
+    if (pieceLower === "q") {
+      // Rook moves: Vertical and Horizontal, stopping at obstacles
+      for (let i = row - 1; i >= 0; i--) {
+        if (board[i][col] !== null) {
+          moves.push([i, col]);
+          break;
+        }
+        moves.push([i, col]);
+      }
+      for (let i = row + 1; i < 8; i++) {
+        if (board[i][col] !== null) {
+          moves.push([i, col]);
+          break;
+        }
+        moves.push([i, col]);
+      }
+      for (let i = col - 1; i >= 0; i--) {
+        if (board[row][i] !== null) {
+          moves.push([row, i]);
+          break;
+        }
+        moves.push([row, i]);
+      }
+      for (let i = col + 1; i < 8; i++) {
+        if (board[row][i] !== null) {
+          moves.push([row, i]);
+          break;
+        }
+        moves.push([row, i]);
+      }
+
+      // digonal moves
+
+      //  left-up
+
+      for (let i = 1; row - i >= 0 && col - i >= 0; i++) {
+        if (board[row - i][col - i] !== null) {
+          moves.push([row - i, col - i]);
+          break;
+        }
+        moves.push([row - i, col - i]);
+      }
+
+      //  right-up
+
+      for (let i = 1; row - i >= 0 && col + i < 8; i++) {
+        if (board[row - i][col + i] !== null) {
+          moves.push([row - i, col + i]);
+          break;
+        }
+
+        moves.push([row - i, col + i]);
+      }
+
+      //  left-down
+
+      for (let i = 1; row + i < 8 && col - i >= 0; i++) {
+        if (board[row + i][col - i] !== null) {
+          moves.push([row + i, col - i]);
+          break;
+        }
+        moves.push([row + i, col - i]);
+      }
+
+      //  right-down
+
+      for (let i = 1; row + i < 8 && col + i < 8; i++) {
+        if (board[row + i][col + i] !== null) {
+          moves.push([row + i, col + i]);
+          break;
+        }
+
+        moves.push([row + i, col + i]);
+      }
+    }
+
+    if (pieceLower === "k") {
+      for (let i = row - 1; i <= row + 1; i++) {
+        console.log(i)
+        for (let j = col - 1; j <= col + 1; j++) {
+          console.log(i,j)
+          if (i >= 0 && i < 8 && j >= 0 && j < 8 && !(i === row && j === col)) {
+            moves.push([i, j]);
+          }
+        }
+      }
+    }
+
+    if( pieceLower === "b"){
+
+     
+      //  left-up
+
+      for (let i = 1; row - i >= 0 && col - i >= 0; i++) {
+        if (board[row - i][col - i] !== null) {
+          moves.push([row - i, col - i]);
+          break;
+        }
+        moves.push([row - i, col - i]);
+      }
+
+      //  right-up
+
+      for (let i = 1; row - i >= 0 && col + i < 8; i++) {
+        if (board[row - i][col + i] !== null) {
+          moves.push([row - i, col + i]);
+          break;
+        }
+
+        moves.push([row - i, col + i]);
+      }
+
+      //  left-down
+
+      for (let i = 1; row + i < 8 && col - i >= 0; i++) {
+        if (board[row + i][col - i] !== null) {
+          moves.push([row + i, col - i]);
+          break;
+        }
+        moves.push([row + i, col - i]);
+      }
+
+      //  right-down
+
+      for (let i = 1; row + i < 8 && col + i < 8; i++) {
+        if (board[row + i][col + i] !== null) {
+          moves.push([row + i, col + i]);
+          break;
+        }
+
+        moves.push([row + i, col + i]);
+      }
+
+    
+
+    }
+
+   
+    if(pieceLower==="n"){
+
+    }
+
     return moves;
   };
 
@@ -87,15 +279,21 @@ function App() {
       {board.map((row, rowIndex) => (
         <div key={rowIndex} className="row">
           {row.map((piece, colIndex) => {
-            const isSelected = selectedPiece?.row === rowIndex && selectedPiece?.col === colIndex;
-            const isValidMove = validMoves.some(([r, c]) => r === rowIndex && c === colIndex);
+            const isSelected =
+              selectedPiece?.row === rowIndex &&
+              selectedPiece?.col === colIndex;
+            const isValidMove = validMoves.some(
+              ([r, c]) => r === rowIndex && c === colIndex
+            );
 
             return (
               <div
                 key={colIndex}
-                className={`square ${(rowIndex + colIndex) % 2 === 0 ? "light" : "dark"} ${
-                  isSelected ? "selected" : ""
-                } ${isValidMove ? "valid-move" : ""}`}
+                className={`square ${
+                  (rowIndex + colIndex) % 2 === 0 ? "light" : "dark"
+                } ${isSelected ? "selected" : ""} ${
+                  isValidMove ? "valid-move" : ""
+                }`}
                 onClick={() => handleSquareClick(rowIndex, colIndex)}
               >
                 {piece && <span>{piece}</span>}
