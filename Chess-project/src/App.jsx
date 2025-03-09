@@ -19,67 +19,49 @@ function App() {
   // console.log(board);
   const [validMoves, setValidMoves] = React.useState([]);
   // console.log(validMoves);
-  
 
-  const movesAllow = ( piece,coordinate)=>{
-    const pieceCase = piece===piece.toLowerCase()
-    
-   //  console.log(pieceCase)
-    if(coordinate!==null  && coordinate !== undefined){
+  const movesAllow = (piece, coordinate) => {
+    const pieceCase = piece === piece.toLowerCase();
 
-     const coordinateCase = coordinate===coordinate.toLowerCase()
-     //  console.log(coordinateCase)
+    //  console.log(pieceCase)
+    if (coordinate !== null && coordinate !== undefined) {
+      const coordinateCase = coordinate === coordinate.toLowerCase();
+      //  console.log(coordinateCase)
 
-      if (pieceCase && coordinateCase){
-       return false
-      }else{
-       return true
+      if (pieceCase && coordinateCase) {
+        return false;
+      } else {
+        return true;
       }
     }
-   }
-  
-  
-  
+  };
+
   const getValidMove = (piece, row, col) => {
-    
-    
-    
-
-   
-
-    
     let moves = [];
-    console.log(moves)
+    console.log(moves);
 
-  
-    
     const pieceLower = piece.toLowerCase();
-    
-    if (pieceLower === "p") {
 
-      
-      
-     
+    if (pieceLower === "p") {
       const direction = piece === "P" ? 1 : -1;
       if (
         row + direction >= 0 &&
         row + direction < 8 &&
         board[row + direction][col] === null
       ) {
-
         moves.push([row + direction, col]);
-
-        
-        
-        
-
-       
-        if (board[row+direction][col+direction] !==null && movesAllow(piece,board[row+direction][col+direction])   ) moves.push([row+direction, col+direction]);
-          if(board[row+direction][col-(direction)]!==null && movesAllow(piece,board[row+direction][col-(direction)] ) ) moves.push([row+direction, col-(direction)]);
-          
-
-        
       }
+
+      if (
+        board[row + direction][col + direction] !== null &&
+        movesAllow(piece, board[row + direction][col + direction])
+      )
+        moves.push([row + direction, col + direction]);
+      if (
+        board[row + direction][col - direction] !== null &&
+        movesAllow(piece, board[row + direction][col - direction])
+      )
+        moves.push([row + direction, col - direction]);
     }
 
     if (pieceLower === "r") {
@@ -192,9 +174,9 @@ function App() {
 
     if (pieceLower === "k") {
       for (let i = row - 1; i <= row + 1; i++) {
-        console.log(i)
+        console.log(i);
         for (let j = col - 1; j <= col + 1; j++) {
-          console.log(i,j)
+          console.log(i, j);
           if (i >= 0 && i < 8 && j >= 0 && j < 8 && !(i === row && j === col)) {
             moves.push([i, j]);
           }
@@ -202,9 +184,7 @@ function App() {
       }
     }
 
-    if( pieceLower === "b"){
-
-     
+    if (pieceLower === "b") {
       //  left-up
 
       for (let i = 1; row - i >= 0 && col - i >= 0; i++) {
@@ -246,14 +226,9 @@ function App() {
 
         moves.push([row + i, col + i]);
       }
-
-    
-
     }
 
-   
-    if(pieceLower==="n"){
-
+    if (pieceLower === "n") {
     }
 
     return moves;
