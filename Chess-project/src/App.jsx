@@ -26,9 +26,12 @@ function App() {
     //  console.log(pieceCase)
     if (coordinate !== null && coordinate !== undefined) {
       const coordinateCase = coordinate === coordinate.toLowerCase();
+      console.log(coordinateCase, pieceCase);
       //  console.log(coordinateCase)
 
       if (pieceCase && coordinateCase) {
+        return false;
+      } else if (pieceCase !== true && coordinateCase !== true) {
         return false;
       } else {
         return true;
@@ -51,7 +54,6 @@ function App() {
       ) {
         moves.push([row + direction, col]);
       }
-
       if (
         board[row + direction][col + direction] !== null &&
         movesAllow(piece, board[row + direction][col + direction])
@@ -68,28 +70,41 @@ function App() {
       // Rook moves: Vertical and Horizontal, stopping at obstacles
       for (let i = row - 1; i >= 0; i--) {
         if (board[i][col] !== null) {
-          moves.push([i, col]);
+          if (movesAllow(piece, board[i][col])) {
+            moves.push([i, col]);
+            break;
+          }
           break;
         }
         moves.push([i, col]);
       }
       for (let i = row + 1; i < 8; i++) {
         if (board[i][col] !== null) {
-          moves.push([i, col]);
+          if (movesAllow(piece, board[i][col])) {
+            moves.push([i, col]);
+            break;
+          }
           break;
         }
+
         moves.push([i, col]);
       }
       for (let i = col - 1; i >= 0; i--) {
         if (board[row][i] !== null) {
-          moves.push([row, i]);
+          if (movesAllow(piece, board[row][i])) {
+            moves.push([row, i]);
+            break;
+          }
           break;
         }
         moves.push([row, i]);
       }
       for (let i = col + 1; i < 8; i++) {
         if (board[row][i] !== null) {
-          moves.push([row, i]);
+          if (movesAllow(piece, board[row][i])) {
+            moves.push([row, i]);
+            break;
+          }
           break;
         }
         moves.push([row, i]);
@@ -100,28 +115,40 @@ function App() {
       // Rook moves: Vertical and Horizontal, stopping at obstacles
       for (let i = row - 1; i >= 0; i--) {
         if (board[i][col] !== null) {
-          moves.push([i, col]);
+          if (movesAllow(piece, board[i][col])) {
+            moves.push([i, col]);
+            break;
+          }
           break;
         }
         moves.push([i, col]);
       }
       for (let i = row + 1; i < 8; i++) {
         if (board[i][col] !== null) {
-          moves.push([i, col]);
+          if (movesAllow(piece, board[i][col])) {
+            moves.push([i, col]);
+            break;
+          }
           break;
         }
         moves.push([i, col]);
       }
       for (let i = col - 1; i >= 0; i--) {
         if (board[row][i] !== null) {
-          moves.push([row, i]);
+          if (movesAllow(piece, board[row][i])) {
+            moves.push([row, i]);
+            break;
+          }
           break;
         }
         moves.push([row, i]);
       }
       for (let i = col + 1; i < 8; i++) {
         if (board[row][i] !== null) {
-          moves.push([row, i]);
+          if (movesAllow(piece, board[row][i])) {
+            moves.push([row, i]);
+            break;
+          }
           break;
         }
         moves.push([row, i]);
@@ -133,7 +160,10 @@ function App() {
 
       for (let i = 1; row - i >= 0 && col - i >= 0; i++) {
         if (board[row - i][col - i] !== null) {
-          moves.push([row - i, col - i]);
+          if (movesAllow(piece, board[row - i][col - i])) {
+            moves.push([row - i, col - i]);
+            break;
+          }
           break;
         }
         moves.push([row - i, col - i]);
@@ -143,7 +173,10 @@ function App() {
 
       for (let i = 1; row - i >= 0 && col + i < 8; i++) {
         if (board[row - i][col + i] !== null) {
-          moves.push([row - i, col + i]);
+          if (movesAllow(piece, board[row - i][col + i])) {
+            moves.push([row - i, col + i]);
+            break;
+          }
           break;
         }
 
@@ -154,7 +187,10 @@ function App() {
 
       for (let i = 1; row + i < 8 && col - i >= 0; i++) {
         if (board[row + i][col - i] !== null) {
-          moves.push([row + i, col - i]);
+          if (movesAllow(piece, board[row + i][col - i])) {
+            moves.push([row + i, col - i]);
+            break;
+          }
           break;
         }
         moves.push([row + i, col - i]);
@@ -164,7 +200,10 @@ function App() {
 
       for (let i = 1; row + i < 8 && col + i < 8; i++) {
         if (board[row + i][col + i] !== null) {
-          moves.push([row + i, col + i]);
+          if (movesAllow(piece, board[row + i][col + i])) {
+            moves.push([row + i, col + i]);
+            break;
+          }
           break;
         }
 
@@ -173,15 +212,7 @@ function App() {
     }
 
     if (pieceLower === "k") {
-      for (let i = row - 1; i <= row + 1; i++) {
-        console.log(i);
-        for (let j = col - 1; j <= col + 1; j++) {
-          console.log(i, j);
-          if (i >= 0 && i < 8 && j >= 0 && j < 8 && !(i === row && j === col)) {
-            moves.push([i, j]);
-          }
-        }
-      }
+      
     }
 
     if (pieceLower === "b") {
@@ -189,7 +220,10 @@ function App() {
 
       for (let i = 1; row - i >= 0 && col - i >= 0; i++) {
         if (board[row - i][col - i] !== null) {
-          moves.push([row - i, col - i]);
+          if (movesAllow(piece, board[row - i][col - i])) {
+            moves.push([row - i, col - i]);
+            break;
+          }
           break;
         }
         moves.push([row - i, col - i]);
@@ -199,7 +233,10 @@ function App() {
 
       for (let i = 1; row - i >= 0 && col + i < 8; i++) {
         if (board[row - i][col + i] !== null) {
-          moves.push([row - i, col + i]);
+          if (movesAllow(piece, board[row - i][col + i])) {
+            moves.push([row - i, col + i]);
+            break;
+          }
           break;
         }
 
@@ -210,7 +247,10 @@ function App() {
 
       for (let i = 1; row + i < 8 && col - i >= 0; i++) {
         if (board[row + i][col - i] !== null) {
-          moves.push([row + i, col - i]);
+          if (movesAllow(piece, board[row + i][col - i])) {
+            moves.push([row + i, col - i]);
+            break;
+          }
           break;
         }
         moves.push([row + i, col - i]);
@@ -220,7 +260,10 @@ function App() {
 
       for (let i = 1; row + i < 8 && col + i < 8; i++) {
         if (board[row + i][col + i] !== null) {
-          moves.push([row + i, col + i]);
+          if (movesAllow(piece, board[row + i][col + i])) {
+            moves.push([row + i, col + i]);
+            break;
+          }
           break;
         }
 
