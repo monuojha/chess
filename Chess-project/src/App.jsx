@@ -19,35 +19,45 @@ function App() {
   // console.log(board);
   const [validMoves, setValidMoves] = React.useState([]);
   // console.log(validMoves);
-  const  checkStringType=(str)=>{
-    if (str===null)return null
-    return str === str.toLowerCase()
-  }
+  
+
+  const movesAllow = ( piece,coordinate)=>{
+    const pieceCase = piece===piece.toLowerCase()
+    
+   //  console.log(pieceCase)
+    if(coordinate!==null  && coordinate !== undefined){
+
+     const coordinateCase = coordinate===coordinate.toLowerCase()
+     //  console.log(coordinateCase)
+
+      if (pieceCase && coordinateCase){
+       return false
+      }else{
+       return true
+      }
+    }
+   }
   
   
   
   const getValidMove = (piece, row, col) => {
     
-    if (piece==="P"){
-      console.log(board[row+1][col-1])
-      console.log(board[row+1][col+1])
-    }else{
-      console.log(board[row-1][col-1])
-      console.log(board[row-1][col+1])
-    }
+    
+    
 
-    //  const isLowerCase = checkStringType(piece)
-    //  console.log(isLowerCase)
-    console.log(piece, row, col);
+   
+
+    
     let moves = [];
-    const opponent1 = checkStringType(board[row+1][col-1])
-    const opponent2 = checkStringType(board[row+1][col+1])
-    const opponent3 = checkStringType(board[row-1][col-1])
-    const opponent4 = checkStringType(board[row-1][col+1])
+    console.log(moves)
+
+  
     
     const pieceLower = piece.toLowerCase();
     
     if (pieceLower === "p") {
+
+      
       
      
       const direction = piece === "P" ? 1 : -1;
@@ -58,20 +68,14 @@ function App() {
       ) {
 
         moves.push([row + direction, col]);
+
         
-        if (piece === "P") {
-          if (col - 1 >= 0 && board[row + 1][col - 1] !== null && opponent1) moves.push([row + 1, col - 1]);
-          if (col + 1 < 8 && board[row + 1][col + 1] !== null && opponent2) moves.push([row + 1, col + 1]);
-        }
-        if (piece === "p") {
-          if (col - 1 >= 0 && board[row - 1][col - 1] !== null && !opponent3) moves.push([row - 1, col - 1]);
-          if (col + 1 < 8 && board[row - 1][col + 1] !== null && !opponent4) moves.push([row - 1, col + 1]);
-        }
+        
         
 
        
-        // if (board[row+direction][col+direction] !==null  ) moves.push([row+direction, col+direction]);
-          // if(board[row+direction][col-(direction)]!==null ) moves.push([row+direction, col-(direction)]);
+        if (board[row+direction][col+direction] !==null && movesAllow(piece,board[row+direction][col+direction])   ) moves.push([row+direction, col+direction]);
+          if(board[row+direction][col-(direction)]!==null && movesAllow(piece,board[row+direction][col-(direction)] ) ) moves.push([row+direction, col-(direction)]);
           
 
         
